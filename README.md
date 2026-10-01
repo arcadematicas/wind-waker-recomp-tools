@@ -105,12 +105,17 @@ The recompilation is a Windows program. On Linux it runs well through **umu-laun
 Motion); Dawn initialises Direct3D 12 and vkd3d-proton translates it to Vulkan.
 
 ```bash
-GAMEID=umu-windwaker \
-PROTONPATH=/usr/share/steam/compatibilitytools.d/proton-cachyos-native \
-umu-run ./BlueWake.exe --disc /path/to/WindWaker-ES.iso
+GAMEID=umu-windwaker umu-run ./BlueWake.exe --disc /path/to/WindWaker-ES.iso
 ```
 
-`scripts/lanzar-windwaker.sh` wraps that up.
+`scripts/lanzar-windwaker.sh` wraps that up, and it **finds Proton on its own**: it looks in
+the usual Steam locations and only accepts a directory containing `toolmanifest.vdf`. If it
+finds none, it leaves `PROTONPATH` unset so umu downloads its own UMU-Proton (the portable
+choice for machines without Steam). Force a specific one with
+`PROTONPATH=/path/to/Proton ./lanzar-windwaker.sh`.
+
+(Until 01/10/2026 this script hard-coded `proton-cachyos-native`, which made it fail with
+`FileNotFoundError: PROTONPATH ... toolmanifest.vdf not found` on anybody else's machine.)
 
 Two things worth knowing:
 

@@ -81,7 +81,9 @@ Git local en el PC; `.gitignore` deja fuera discos, app, releases, packs y logs.
 ## Cómo está montado (reproducible)
 
 1. **App**: release oficial Windows x64 v0.2.2 → `app/`. En Linux se ejecuta con **umu-launcher** +
-   **Proton** (probado con `proton-cachyos-native`).
+   **Proton** (probado con `proton-cachyos-native`). El lanzador **busca el Proton solo**
+   (acepta solo carpetas con `toolmanifest.vdf`) y, si no encuentra ninguno, deja que umu se
+   descargue el suyo; se puede forzar con `PROTONPATH=/ruta/a/Proton lanzar-windwaker.sh`.
    - ⚠️ El recomp **no acepta `.rvz` por `--disc`** (su README dice que sí): hay que darle `.iso`/`.gcm`.
 2. **Discos**: el `.rvz` de Batocera → `.iso` con `dolphin-tool convert -f iso`.
 3. **Español**: `bmgres.arc` del PAL `res/Msg/data3/` injertado en el hueco del USA
