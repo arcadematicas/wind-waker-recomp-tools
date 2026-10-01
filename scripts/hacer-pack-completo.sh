@@ -16,7 +16,7 @@ ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 VERSION="$(cat "$ROOT/app/.version" 2>/dev/null || echo "desconocida")"
 DEST="$ROOT/pack-completo"
 APP_SRC="$ROOT/app/WindWakerRecomp"
-DATA_SRC="/home/fransis/Games/umu/umu-windwaker/drive_c/users/steamuser/AppData/Roaming/BlueWake"
+DATA_SRC="${WINDWAKER_DATA:-$HOME/Games/umu/umu-windwaker/drive_c/users/steamuser/AppData/Roaming/BlueWake}"
 TEX_SRC="$DATA_SRC/Load/Textures/GZLE01"
 ISO_SRC="$ROOT/discos/WindWaker-ES.iso"
 

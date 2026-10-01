@@ -1,4 +1,4 @@
-# Datos que NUNCA van al repo
+# Never commit: game data, the app, packs and logs.
 discos/
 app/
 app.bak-*/
@@ -14,3 +14,4 @@ pack-completo/
 *.dds
 *.zip
 *.7z
+__pycache__/
