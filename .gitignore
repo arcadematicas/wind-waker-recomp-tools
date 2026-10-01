@@ -1,0 +1,14 @@
+# Datos que NUNCA van al repo
+discos/
+app/
+app.bak-*/
+releases/
+logs/
+pack-amigos/
+*.iso
+*.rvz
+*.gcm
+*.wia
+*.gcz
+*.dds
+*.zip

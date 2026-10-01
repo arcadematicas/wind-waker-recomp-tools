@@ -1,0 +1,9 @@
+[Desktop Entry]
+Type=Application
+Name=Wind Waker Recomp (Proton)
+Comment=The Legend of Zelda: The Wind Waker recompilado, sobre Proton
+Exec=/home/fransis/wind-waker-recomp/scripts/lanzar-windwaker.sh
+Path=/home/fransis/wind-waker-recomp/app/WindWakerRecomp
+Icon=/home/fransis/wind-waker-recomp/windwaker.png
+Terminal=false
+Categories=Game;

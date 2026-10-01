@@ -1,0 +1,75 @@
+========================================================
+ The Legend of Zelda: The Wind Waker - Recompilado (PC)
+========================================================
+
+Que es esto
+-----------
+Una recompilacion estatica del Wind Waker de GameCube (el proyecto
+elliotttate/Wind-Waker-Recomp, fork de BlueWake). Es decir: el juego corre
+como un programa nativo, no en un emulador. Trae Smooth Motion a 60/120 fps,
+widescreen, save states y los arreglos de "Better Wind Waker".
+
+ESTE PACK NO INCLUYE EL JUEGO. Trae el programa; el disco lo pones tu.
+
+
+Lo que necesitas
+----------------
+Tu propio disco de The Legend of Zelda: The Wind Waker para GameCube,
+version USA (GZLE01) REVISION 0. En formato .iso, .gcm o .rvz.
+
+OJO: la app comprueba el disco (identificador + huella del main.dol) y
+RECHAZA cualquier otra version. Y solo existe en INGLES: el espanol esta
+unicamente en la version europea (GZLP01), que la app no acepta tal cual.
+
+
+Instalar
+--------
+1) Descomprime el zip de la app (WindWakerRecomp-...-windows-x64.zip).
+2) Ejecuta BlueWake.exe.
+3) La primera vez te pedira el disco. Elige tu .iso / .gcm / .rvz
+   (si es .rvz lo descomprime el solo).
+
+   AVISO: si le pasas el .rvz por linea de comandos (--disc) da error
+   ("needs an uncompressed .iso or .gcm"). Arrastrandolo o eligiendolo en
+   la ventana funciona; si no, convierte a .iso.
+
+Teclas: F1 = ajustes, F5 guardar estado, F8 cargar el ultimo, F11 pantalla
+completa. Mando de Xbox/PlayStation/Switch compatible.
+
+Saves y ajustes: %APPDATA%\BlueWake
+
+
+Si quieres jugarlo EN ESPANOL
+-----------------------------
+La app no acepta el disco europeo, asi que hay que injertar los textos:
+se cogen del disco PAL (GZLP01) y se meten en el disco USA (GZLE01),
+dejando intacto el main.dol para que la app lo siga aceptando.
+
+Necesitas LOS DOS discos (el USA y el PAL (Europe) (En,Fr,De,Es,It)).
+
+  Solo el dialogo y los textos quedan en espanol; los menus y algunos
+  carteles de la interfaz siguen en ingles.
+
+Pasos:
+  1) Instala dolphin-emu (te da el comando "dolphin-tool").
+  2) Coloca los dos discos y ejecuta:
+       scripts/hacer-iso-es.sh USA.iso PAL.iso WindWaker-ES.iso
+     (o sin argumentos, si los pones en la carpeta "discos").
+  3) Arranca la app y elige el WindWaker-ES.iso que ha creado.
+
+El script comprueba las cabeceras, localiza el fichero de textos por su
+firma y aplica el injerto. No modifica ninguno de tus dos discos originales.
+
+En Linux: el script scripts/lanzar-windwaker.sh lo arranca con Proton
+(necesita umu-launcher y Proton; esta probado con proton-cachyos).
+
+
+Importante
+----------
+- NO comparte el disco del juego ni los ficheros que se extraen de el.
+  Es material con derechos de autor.
+- NO redistribuyas packs de texturas HD de terceros.
+- La app es GPL-3.0 y su release es publica; puedes pasarla, pero cada
+  persona pone su propio disco.
+
+Credito original: elliotttate/Wind-Waker-Recomp y chrissotraidis/bluewake.
