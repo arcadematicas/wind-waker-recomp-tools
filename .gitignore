@@ -5,6 +5,7 @@ app.bak-*/
 releases/
 logs/
 pack-amigos/
+pack-completo/
 *.iso
 *.rvz
 *.gcm
@@ -12,3 +13,4 @@ pack-amigos/
 *.gcz
 *.dds
 *.zip
+*.7z
