@@ -83,12 +83,73 @@ cat > "$DEST/lanzar-windwaker.sh" <<'SH'
 # de datos en formato Windows (Z: = raiz del sistema).
 set -euo pipefail
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+
+# --- EL PROTON NO SE DA POR HECHO: SE BUSCA (01/10/2026) ---------------------
+# Antes esto era PROTONPATH=/usr/share/steam/compatibilitytools.d/proton-cachyos-native
+# a fuego, o sea la ruta de UN equipo. En cualquier otro, umu revienta con:
+#   FileNotFoundError: PROTONPATH '...' is not valid, toolmanifest.vdf not found
+# Ahora: se respeta PROTONPATH si viene puesto (validandolo), si no se busca uno
+# instalado, y si no hay ninguno se deja sin poner para que umu se descargue el suyo.
+es_proton() { [ -n "${1:-}" ] && [ -f "$1/toolmanifest.vdf" ]; }
+
+PROTON_DIRS=(
+    "$HOME/.steam/root/compatibilitytools.d"
+    "$HOME/.local/share/Steam/compatibilitytools.d"
+    "/usr/share/steam/compatibilitytools.d"
+    "$HOME/.var/app/com.valvesoftware.Steam/data/Steam/compatibilitytools.d"
+    "$HOME/.steam/steam/steamapps/common"
+    "$HOME/.local/share/Steam/steamapps/common"
+    "/usr/share/steam/steamapps/common"
+    "$HOME/.var/app/com.valvesoftware.Steam/data/Steam/steamapps/common"
+)
+
+# La preferencia es por NOMBRE, no por carpeta: recorriendo las carpetas primero
+# ganaria el GE-Proton de ~/.steam/root/ y le cambiariamos a Fransis el Proton
+# que ya le iba a 60 fps.
+buscar_proton() {
+    local patron dir c
+    for patron in 'proton-cachyos-native' 'proton-cachyos' 'GE-Proton*' 'Proton*' '*'; do
+        for dir in "${PROTON_DIRS[@]}"; do
+            [ -d "$dir" ] || continue
+            while IFS= read -r c; do
+                [ -n "$c" ] || continue
+                c="${c%/}"
+                if es_proton "$c"; then printf '%s' "$c"; return 0; fi
+            done < <(find "$dir" -maxdepth 1 -mindepth 1 -type d -name "$patron" 2>/dev/null | sort -V -r)
+        done
+    done
+    return 1
+}
+
+if [ -n "${PROTONPATH:-}" ]; then
+    if ! es_proton "$PROTONPATH"; then
+        echo "ERROR: PROTONPATH=$PROTONPATH no parece un Proton (no tiene toolmanifest.vdf)." >&2
+        echo "  - quita la variable y se detectara solo, o" >&2
+        echo "  - apunta a la carpeta que contiene toolmanifest.vdf." >&2
+        exit 1
+    fi
+    echo "Proton: $PROTONPATH (forzado con PROTONPATH)"
+elif PROTON_DETECTADO="$(buscar_proton)"; then
+    export PROTONPATH="$PROTON_DETECTADO"
+    echo "Proton: $PROTONPATH"
+else
+    unset PROTONPATH 2>/dev/null || true
+    echo "Proton: (ninguno instalado: umu se descargara el suyo, UMU-Proton)"
+fi
+
 export GAMEID=umu-windwaker
-export PROTONPATH="${PROTONPATH:-/usr/share/steam/compatibilitytools.d/proton-cachyos-native}"
-export UMU_RUNTIME_UPDATE=0
+export UMU_RUNTIME_UPDATE="${UMU_RUNTIME_UPDATE:-0}"
 export BLUEWAKE_DATA_DIR="Z:$(printf '%s' "$ROOT/datos" | tr '/' '\\')"
+
+DISC="$ROOT/discos/WindWaker-ES.iso"
+if [ ! -f "$DISC" ]; then
+  echo "Falta el disco: $DISC" >&2
+  echo "  - deberia venir en la carpeta discos/ de este pack" >&2
+  exit 1
+fi
+
 cd "$ROOT/app/WindWakerRecomp"
-exec umu-run ./BlueWake.exe --disc "$ROOT/discos/WindWaker-ES.iso" "$@"
+exec umu-run ./BlueWake.exe --disc "$DISC" "$@"
 SH
 chmod +x "$DEST/lanzar-windwaker.sh"
 
@@ -103,7 +164,7 @@ Este pack YA ESTA LISTO. No hay que configurar nada.
 COMO JUGAR
 ----------
   Windows:  doble clic en "Lanzar Wind Waker.bat"
-  Linux:    ./lanzar-windwaker.sh   (necesita umu-launcher + Proton)
+  Linux:    ./lanzar-windwaker.sh   (necesita umu-launcher; el Proton lo busca solo)
 
 El juego arranca en ESPANOL, con el pack de texturas HD activado y los
 ajustes ya puestos (16:9, Better Wind Waker, Smooth Motion a 60 fps).

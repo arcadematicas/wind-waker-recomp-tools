@@ -36,6 +36,10 @@ Instalar
 Teclas: F1 = ajustes, F5 guardar estado, F8 cargar el ultimo, F11 pantalla
 completa. Mando de Xbox/PlayStation/Switch compatible.
 
+En Linux: con umu-launcher instalado, ejecuta lanzar-windwaker.sh. El Proton lo
+busca solo; si quieres usar uno concreto:
+  PROTONPATH=/ruta/a/Proton ./lanzar-windwaker.sh
+
 Saves y ajustes: %APPDATA%\BlueWake
 
 
