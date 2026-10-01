@@ -130,6 +130,9 @@ Other scripts:
 | `scripts/hacer-iso-es.sh` | Convenience wrapper around `windwaker_pal_text.py` |
 | `scripts/actualizar.sh` | Downloads the latest recompilation release, verifies its SHA-256, keeps a backup |
 
+There is also a written feasibility study for a **native Linux port** (x86-64 and ARM64),
+including what the code already supports and what is missing: [`docs/PORTING-LINUX.md`](docs/PORTING-LINUX.md).
+
 ---
 
 ## Legal
