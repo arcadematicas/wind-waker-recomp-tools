@@ -117,3 +117,32 @@ son multi-idioma y mayores → haría falta reconstruir el ISO (FST nuevo) y ele
 3. **Port nativo a Linux/ARM** (viable: capa POSIX, SDL3 e Dawn con Vulkan ya presentes).
 4. Decidir si el repo local se sube a GitHub (`arcadematicas`).
 5. Contar en el issue #3 que funciona por Proton.
+
+---
+
+## 🌍 PUBLICADO: herramienta multi-idioma + respuestas al creador (01/10/2026)
+
+**Repo público**: https://github.com/arcadematicas/wind-waker-recomp-tools
+
+- **`tools/windwaker_pal_text.py`** (568 líneas, Python 3 **solo stdlib**, sin dolphin-tool) —
+  injerta el texto de CUALQUIER idioma del PAL en el disco USA:
+  ```bash
+  python3 tools/windwaker_pal_text.py USA.iso PAL.iso OUT.iso --language es
+  python3 tools/windwaker_pal_text.py --list --disc "MI.iso"     # solo lectura
+  ```
+  Idiomas: `es` (por defecto), `fr`, `it` → caben. `de` → **no cabe** (24.064 B de más) y aborta
+  antes de escribir nada, explicando que necesitaría reconstruir el ISO.
+  Detecta solo los 5 archivos de diálogo del PAL y su idioma (normaliza acentos), e imprime una
+  muestra de texto de cada uno para que se compruebe a ojo.
+  **Validado**: la salida en `es` es **byte a byte idéntica** al ISO que ya funcionaba
+  (`cmp` → IDENTICOS) y los discos de entrada quedan intactos (sha256 sin cambios).
+- **Comentarios publicados en el repo del creador** (usuario `arcadematicas`):
+  - Issue **#7** (*Wind waker Europe support*) → https://github.com/elliotttate/Wind-Waker-Recomp/issues/7#issuecomment-5929059380
+    Explica la técnica, la tabla de tamaños, qué idiomas caben, que los menús siguen en inglés,
+    el caso del alemán, y ofrece la herramienta + un PR.
+  - Issue **#3** (*Linux Support*) → https://github.com/elliotttate/Wind-Waker-Recomp/issues/3#issuecomment-5929059857
+    Confirma que va por Proton con el comando exacto, avisa de que `--disc` no acepta `.rvz`,
+    y documenta el truco de `BLUEWAKE_DATA_DIR` y el detalle de las texturas en `GZLE01`.
+- El repo público lleva README (inglés + sección en español), licencia GPL-3.0 y los scripts.
+  **No contiene datos del juego.** `.gitignore` fuera discos, app, releases, packs y logs.
+- Los commits se reescribieron con la identidad de GitHub (`arcadematicas`).
