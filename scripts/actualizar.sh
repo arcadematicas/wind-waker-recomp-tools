@@ -21,6 +21,16 @@ command -v python3 >/dev/null || { echo "falta python3" >&2; exit 1; }
 echo "== consultando la ultima release de $REPO =="
 JSON="$(curl -fsSL "https://api.github.com/repos/$REPO/releases/latest")"
 TAG="$(printf '%s' "$JSON" | python3 -c 'import json,sys; print(json.load(sys.stdin)["tag_name"])')"
+# El nombre del asset importa: el fichero .sha256 de GitHub contiene "<hash>  <nombre-del-asset>",
+# y `sha256sum -c` busca ESE nombre en el directorio. Si guardamos el zip con otro nombre
+# (p. ej. "v0.3.0-windows-x64.zip"), la verificacion falla y parece que la descarga esta mal.
+ASSET="$(printf '%s' "$JSON" | python3 -c '
+import json,sys
+d=json.load(sys.stdin)
+for a in d["assets"]:
+    if "windows-x64" in a["name"] and a["name"].endswith(".zip"):
+        print(a["name"]); break
+')"
 URL="$(printf '%s' "$JSON" | python3 -c '
 import json,sys
 d=json.load(sys.stdin)
@@ -43,7 +53,7 @@ if [ "$CHECK_ONLY" = 1 ]; then
 fi
 
 mkdir -p "$ROOT/releases"
-ZIP="$ROOT/releases/$TAG-windows-x64.zip"
+ZIP="$ROOT/releases/$ASSET"
 echo "== descargando $TAG =="
 curl -fL --retry 3 -o "$ZIP" "$URL"
 echo "== verificando sha256 =="
